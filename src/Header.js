@@ -205,7 +205,7 @@ export default function Example() {
                 <div>
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                    src=""
                     alt="Workflow"
                   />
                 </div>
