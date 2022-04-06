@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import {  } from "firebase/auth";
+import { getAuth, updateProfile, GoogleAuthProvider, signInWithPopup, onAuthStateChanged} from "firebase/auth";
+import { getFirestore, doc, setDoc} from "firebase/firestore";
 
 const provider = new GoogleAuthProvider();
 
@@ -16,9 +16,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const analytics = getAnalytics(app);
 const auth = getAuth();
-const user = auth.currentUser;
-export { user,analytics, auth, updateProfile, provider, signInWithPopup };
 
+export { db,analytics, auth, updateProfile, provider, signInWithPopup, onAuthStateChanged, doc, setDoc };
 export default app;
