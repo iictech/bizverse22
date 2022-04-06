@@ -9,7 +9,10 @@ export default function SignUp() {
   const [message, setMessage] = useState('');
   const [userId, setUserId] = useState('');
   const [userDetails, setUserDetails] = useState({
-    name: '',
+    name: {
+      first: '',
+      last: ''
+    },
     email: '',
     number: false,
     gender: false,
@@ -22,11 +25,7 @@ export default function SignUp() {
   async function updateUser(){
     try {
       await setDoc(doc(db, "users", userId), {...userDetails,
-      evg_id:'22EVG'+nanoid(3).replace('-','Z').toUpperCase()+Date.now().toString().substr(7),
-      name: {
-        first: userDetails.name.split(' ')[0],
-        last: userDetails.name.split(' ')[1],
-      },
+      evg_id:'22EVG'+nanoid(3).replace('-','Z').toUpperCase()+Date.now().toString().substr(7)
       });
     } catch (error) {
       setError('Something went wrong... please try again');
@@ -55,7 +54,10 @@ export default function SignUp() {
     onAuthStateChanged(auth, (user)=>{
       if(user){
         setUserId(user.uid)
-        setUserDetails({...userDetails,email:user.email,name:user.displayName});
+        setUserDetails({...userDetails,email:user.email,name:{
+          first:user.displayName.split(' ')[0],
+          last:user.displayName.split(' ')[1]
+        }});
       }
     });
   },[])
@@ -75,16 +77,31 @@ export default function SignUp() {
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <div className="space-y-6">
               <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Name
+              <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
+               First Name
               </label>
               <div className="mt-1">
                 <input
                   type="text"
                   className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   placeholder="Enter your full name"
-                  onChange={(e)=>{setUserDetails({...userDetails,name:e.target.value})}}
-                  value={userDetails.name}
+                  onChange={(e)=>{setUserDetails({...userDetails,name:{first:e.target.value}})}}
+                  value={userDetails.name.first}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="lname" className="block text-sm font-medium text-gray-700">
+               Last Name
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="Enter your full name"
+                  onChange={(e)=>{setUserDetails({...userDetails,name:{last:e.target.value}})}}
+                  value={userDetails.name.last}
                 />
               </div>
             </div>
@@ -130,6 +147,7 @@ export default function SignUp() {
                 <option>Male</option>
                 <option>Female</option>
                 <option>Other</option>
+                <option></option>
               </select>
             </div>
 
