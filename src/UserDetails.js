@@ -22,7 +22,7 @@ export default function SignUp() {
   async function updateUser(){
     try {
       await setDoc(doc(db, "users", userId), {...userDetails,
-      evg_id:'22EVG'+nanoid(5).replace('-','9')+Date.now().toString().substr(8),
+      evg_id:'22EVG'+nanoid(3).replace('-','Z').toUpperCase()+Date.now().toString().substr(7),
       name: {
         first: userDetails.name.split(' ')[0],
         last: userDetails.name.split(' ')[1],
@@ -129,7 +129,7 @@ export default function SignUp() {
               >
                 <option>Male</option>
                 <option>Female</option>
-                <option></option>
+                <option>Other</option>
               </select>
             </div>
 
