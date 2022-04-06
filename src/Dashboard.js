@@ -2,14 +2,8 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import logo from "./logo.png"
-import { user } from "./firebase"
-
-const userData = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+import { useEffect, useState } from 'react';
+import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Registered Events', href: '#', current: false },
@@ -26,7 +20,26 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Dashboard() {
+  const [userId, setUserId] = useState('');
+  const [userData, setUserData]= useState({
+    name: '',
+    email: '',
+    imageUrl:
+      '',
+  });
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user)=>{
+      if(user){
+        setUserId(user.uid)
+        setUserData({
+          name: user.displayName,
+          email: user.email,
+          imageUrl: user.photoURL,
+        })
+      }
+    });
+  },[])
   return (
     <>
       <div className="min-h-full">
@@ -190,7 +203,18 @@ export default function Example() {
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
             {/* Replace with your content */}
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-              <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
+              <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg h-96 text-xl font-semibold ">
+                <div className="mt-5">
+                You have not registered for any event
+                </div>
+                <br />
+                <button
+                  type="button"
+                  className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  View All Events
+                </button>
+              </div>
             </div>
             {/* /End replace */}
           </div>
