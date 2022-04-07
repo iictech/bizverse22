@@ -17,7 +17,7 @@ const days = [
   { date: '2022-04-01', events: [], isCurrentMonth: true},
 ]
 
-for (let i = 2; i < 31; i++) {
+for (let i = 2; i < 39; i++) {
   if(i === 18){
     days.push(
       { date: '2022-04-0'+i, events: [{ id: 1, name: 'Event Name', time: '6PM', href: '#' }], isCurrentMonth: true},
@@ -25,6 +25,10 @@ for (let i = 2; i < 31; i++) {
   } else if(i === 19) {
     days.push(
       { date: '2022-04-0'+i, events: [{ id: 2, name: 'Event Name', time: '6PM', href: '#' }], isCurrentMonth: true},
+    )
+  } else if (i > 30){
+    days.push(
+      { date: '2022-04-0'+(i-30), events: [], isCurrentMonth: false},
     )
   } else {
     days.push(
