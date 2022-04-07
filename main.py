@@ -31,18 +31,29 @@ db = firestore.client()
 #     u'college': u'Techno Main Saltlake',
 #     u'college_id': u'1234567890',
 #     u'department': u'CSE-AIML',
-#     u'city': u'Kolkata',
+#     u'city': u'Kolkata',u
 #     u'state': u'West Bengal',
 #     u'evg_id': u'22EVGABC123456',
 #     u'regd_events': []
 # })
 
 events = ["hackathon", "brain_it_out", "logo_and_poster", "ipr_workshop"]
-col = db.collection(u"events")
-for idx in events:
-    col.document(idx).set({
-        u'registered':[]
-    })
+# for idx in events:
+#     col.document(idx).set({
+#         u'registered':[]
+#     })
+col = db.collection(u"events").document(u"hackathon")
+
+data = {
+    u"lead":u"22EVGABC111111",
+    u"member1":u"22EVGABC111112",
+    u"member2":u"22EVGABC111113",
+    u"member3":u"22EVGABC111114"
+    }
+
+
+col.collection(u"team_name2").document(u"22EVGABC123444").set(data)
+# col.set(data)
 
 
 # Fetch all user data
