@@ -7,6 +7,17 @@ import UserDetails from "./UserDetails"
 import RegisteredEvents from "./RegisteredEvents"
 import AllEvents from "./AllEvents"
 import Calender from "./Calender"
+import {auth, signOut} from "./firebase"
+import {useNavigate} from 'react-router-dom';
+
+function SignOut() {
+  const navigate = useNavigate(); 
+  signOut(auth).then(() => {
+    navigate('/');
+  }).catch((error) => {
+    
+  });
+}
 export default function App() {
   return (
     <Router>
@@ -19,6 +30,7 @@ export default function App() {
         <Route path="/registered-events" exact element={<RegisteredEvents />}></Route>
         <Route path="/all-events" exact element={<AllEvents />}></Route>
         <Route path="/calender" exact element={<Calender />}></Route>
+        <Route path="/sign-out" exact element={<SignOut />}></Route>
       </Routes>
     </Router>
   )

@@ -17,9 +17,7 @@ const navigation = [
   { name: 'Calendar', href: '/calender', current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Sign out', href: '/sign-out' },
 ]
 
 function classNames(...classes) {
@@ -224,7 +222,7 @@ export default function Dashboard() {
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
               <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg text-xl font-semibold ">
                 <div className="mt-5 font-bold">
-                EVG ID IS : {userData.evg_id}
+                EVG ID : {userData.evg_id}
                 </div>
                 <div className="mt-2 text-lg">
                 Your Details

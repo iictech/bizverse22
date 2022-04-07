@@ -11,9 +11,7 @@ const navigation = [
   { name: 'Calendar', href: '/calender', current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Sign out', href: '/sign-out' },
 ]
 
 function classNames(...classes) {

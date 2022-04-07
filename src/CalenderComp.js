@@ -1,13 +1,6 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
 import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   ClockIcon,
-  DotsHorizontalIcon,
 } from '@heroicons/react/solid'
-import { Menu, Transition } from '@headlessui/react'
 
 const days = [
   { date: '2022-03-28', events: [] },
