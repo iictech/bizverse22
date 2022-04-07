@@ -1,14 +1,20 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { BellIcon, MenuIcon, XIcon,
+  ChartBarIcon,
+  AcademicCapIcon,
+  CheckCircleIcon,
+  CursorClickIcon,
+  TrendingUpIcon, } from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
+import CalenderComp from "./CalenderComp";
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
-  { name: 'Registered Events', href: '/registered-events', current: true },
+  { name: 'Registered Events', href: '/registered-events', current: false },
   { name: 'All Events', href: '/all-events', current: false },
-  { name: 'Calendar', href: '/calender', current: false },
+  { name: 'Calendar', href: '/calender', current: true },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -16,6 +22,31 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ]
 
+const events = [
+  {
+    name: 'Brain-It-Out',
+    description: 'An exciting quiz where participants are quizzed on relevant business, technology and innovation topics and the team with the most answers correct, wins the game',
+    href: '#',
+    icon: ChartBarIcon,
+  },
+  {
+    name: 'HackUrWay',
+    description: 'A platform where students will have to solve problems on relevant daily life problems by inculcating their problem-solving skills.',
+    href: '#',
+    icon: CursorClickIcon,
+  },
+  { 
+    name: 'Logo and Poster Designing', 
+    description: "A creative outlet for students with a hidden marketing and designing side.", 
+    href: '#', 
+    icon: TrendingUpIcon },
+  {
+    name: 'IPR Workshop',
+    description: "Introduction to the Patent Side of the Business World to help you achieve an identity for your startup idea",
+    href: '#',
+    icon: AcademicCapIcon,
+  },
+]
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -193,29 +224,16 @@ export default function RegisteredEvents() {
           </Disclosure>
           <header className="py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold text-white">Registered Events</h1>
+              <h1 className="text-3xl font-bold text-white">Calender</h1>
             </div>
           </header>
         </div>
 
         <main className="-mt-32">
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-            {/* Replace with your content */}
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-              <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg h-96 text-xl font-semibold ">
-                <div className="mt-5">
-                You have not registered for any event
-                </div>
-                <br />
-                <button
-                  type="button"
-                  className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  View All Events
-                </button>
-              </div>
+              <CalenderComp />
             </div>
-            {/* /End replace */}
           </div>
         </main>
       </div>

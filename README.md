@@ -4,5 +4,6 @@
 
 ### To Do
 - [x] Sign Up flow similar to ktj.in
-- [ ] User Dashboard
+- [X] User Dashboard
+- [ ] Registration Flow
 - [ ] Redirect Flow

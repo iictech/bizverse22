@@ -1,14 +1,20 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { BellIcon, MenuIcon, XIcon, 
+  AcademicCapIcon,
+IdentificationIcon,
+ChipIcon,
+LocationMarkerIcon,
+MailIcon,
+UsersIcon} from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
   { name: 'Registered Events', href: '/registered-events', current: false },
-  { name: 'All Events', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'All Events', href: '/all-events', current: false },
+  { name: 'Calendar', href: '/calender', current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -218,19 +224,47 @@ export default function Dashboard() {
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
               <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg text-xl font-semibold ">
                 <div className="mt-5 font-bold">
-                YOUR EVG ID IS : {userData.evg_id}
+                EVG ID IS : {userData.evg_id}
                 </div>
-                <br />
-                <div className="text-lg">
-                Your Details<br /><br />
-                College : {userData.college}<br />
-                College ID : {userData.college_id}<br />
-                Department : {userData.department}<br />
-                Email : {userData.email}<br />
-                City : {userData.city}<br />
-                State : {userData.state}<br />
-                Number : {userData.number}<br />
-                Gender : {userData.gender}<br />
+                <div className="mt-2 text-lg">
+                Your Details
+                <div className="flex flex-wrap p-4 justify-evenly text-xl">
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <AcademicCapIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>College : {userData.college}</p>
+                  </div>
+
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <IdentificationIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>College ID : {userData.college_id}</p>
+                  </div>
+
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <ChipIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>Department : {userData.department}</p>
+                  </div>
+
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <LocationMarkerIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>State : {userData.state}</p>
+                  </div>
+
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <LocationMarkerIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>City : {userData.city}</p>
+                  </div>
+
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <MailIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>Email : {userData.email}</p>
+                  </div>
+
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <UsersIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>Gender : {userData.gender}</p>
+                  </div>
+
+                </div>
               </div>
             </div>
             </div>

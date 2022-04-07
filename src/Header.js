@@ -26,7 +26,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import technoLogo from './techno_logo.png'
 import iicLogo from './iic_logo.png'
 import logo from './logo.png'
-const solutions = [
+const events = [
   {
     name: 'Brain-It-Out',
     description: 'An exciting quiz where participants are quizzed on relevant business, technology and innovation topics and the team with the most answers correct, wins the game',
@@ -120,7 +120,7 @@ export default function Example() {
                     >
                       <Popover.Panel static className="hidden md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-gray-900" onMouseLeave={()=>{setOpen(false)}}>
                         <div className="max-w-7xl mx-auto grid gap-y-6 px-4 py-6 sm:grid-cols-2 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-4 lg:px-8 lg:py-12 xl:py-16">
-                          {solutions.map((item) => (
+                          {events.map((item) => (
                             <a
                               key={item.name}
                               href={item.href}
@@ -220,7 +220,7 @@ export default function Example() {
               <div className="mt-6 sm:mt-8">
                 <nav>
                   <div className="grid gap-7 sm:grid-cols-2 sm:gap-y-8 sm:gap-x-4">
-                    {solutions.map((item) => (
+                    {events.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}

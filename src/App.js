@@ -5,7 +5,8 @@ import SignUp from "./SignUp"
 import Dashboard from "./Dashboard"
 import UserDetails from "./UserDetails"
 import RegisteredEvents from "./RegisteredEvents"
-
+import AllEvents from "./AllEvents"
+import Calender from "./Calender"
 export default function App() {
   return (
     <Router>
@@ -16,6 +17,8 @@ export default function App() {
         <Route path="/dashboard" exact element={<Dashboard />}></Route>
         <Route path="/user-details" exact element={<UserDetails />}></Route>
         <Route path="/registered-events" exact element={<RegisteredEvents />}></Route>
+        <Route path="/all-events" exact element={<AllEvents />}></Route>
+        <Route path="/calender" exact element={<Calender />}></Route>
       </Routes>
     </Router>
   )
