@@ -4,6 +4,7 @@ import SignIn from "./SignIn"
 import SignUp from "./SignUp"
 import Dashboard from "./Dashboard"
 import UserDetails from "./UserDetails"
+import RegisteredEvents from "./RegisteredEvents"
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/sign-up" exact element={<SignUp />}></Route>
         <Route path="/dashboard" exact element={<Dashboard />}></Route>
         <Route path="/user-details" exact element={<UserDetails />}></Route>
+        <Route path="/registered-events" exact element={<RegisteredEvents />}></Route>
       </Routes>
     </Router>
   )

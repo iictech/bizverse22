@@ -3,10 +3,10 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
-import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
+import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Registered Events', href: '/registered-events', current: false },
+  { name: 'Dashboard', href: '/dashboard', current: false },
+  { name: 'Registered Events', href: '/registered-events', current: true },
   { name: 'All Events', href: '#', current: false },
   { name: 'Calendar', href: '#', current: false },
 ]
@@ -20,36 +20,22 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Dashboard() {
+export default function RegisteredEvents() {
   const [userId, setUserId] = useState('');
   const [userData, setUserData]= useState({
-    name: {
-      first: '',
-      last: ''
-    },
+    name: '',
     email: '',
     imageUrl: false,
-    evg_id: 'Loading...',
   });
   useEffect(()=>{
-    onAuthStateChanged(auth, async (user)=>{
+    onAuthStateChanged(auth, (user)=>{
       if(user){
         setUserId(user.uid)
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUserData({
-            name: {
-              first: user.displayName.split(' ')[0],
-              last: user.displayName.split(' ')[1]
-            },
-            email: user.email,
-            imageUrl: user.photoURL,
-            ...docSnap.data(),
-          })
-        } else {
-          console.log("User Not Found");
-        }
+        setUserData({
+          name: user.displayName,
+          email: user.email,
+          imageUrl: user.photoURL,
+        })
       }
     });
   },[])
@@ -68,7 +54,7 @@ export default function Dashboard() {
                           <img
                             className="h-8 w-8"
                             src={logo}
-                            alt=""
+                            alt="Workflow"
                           />
                         </div>
                         <div className="hidden md:block">
@@ -106,7 +92,7 @@ export default function Dashboard() {
                             <div>
                               <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                 <span className="sr-only">Open user menu</span>
-                                <img className="h-8 w-8 rounded-full" src={userData.imageUrl} alt="" />
+                                <img className="h-8 w-8 rounded-full" src={userData.imageUrl || logo} alt="" />
                               </Menu.Button>
                             </div>
                             <Transition
@@ -174,7 +160,7 @@ export default function Dashboard() {
                   <div className="pt-4 pb-3 border-t border-gray-700">
                     <div className="flex items-center px-5">
                       <div className="flex-shrink-0">
-                        <img className="h-10 w-10 rounded-full" src={userData.imageUrl || logo} alt="" />
+                        <img className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
                       </div>
                       <div className="ml-3">
                         <div className="text-base font-medium leading-none text-white">{userData.name.first + ' ' + userData.name.last}</div>
@@ -207,7 +193,7 @@ export default function Dashboard() {
           </Disclosure>
           <header className="py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold text-white">Welcome {userData.name.first + ' ' + userData.name.last}</h1>
+              <h1 className="text-3xl font-bold text-white">Registered Events</h1>
             </div>
           </header>
         </div>
@@ -216,23 +202,18 @@ export default function Dashboard() {
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
             {/* Replace with your content */}
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-              <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg text-xl font-semibold ">
-                <div className="mt-5 font-bold">
-                YOUR EVG ID IS : {userData.evg_id}
+              <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg h-96 text-xl font-semibold ">
+                <div className="mt-5">
+                You have not registered for any event
                 </div>
                 <br />
-                <div className="text-lg">
-                Your Details<br /><br />
-                College : {userData.college}<br />
-                College ID : {userData.college_id}<br />
-                Department : {userData.department}<br />
-                Email : {userData.email}<br />
-                City : {userData.city}<br />
-                State : {userData.state}<br />
-                Number : {userData.number}<br />
-                Gender : {userData.gender}<br />
+                <button
+                  type="button"
+                  className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  View All Events
+                </button>
               </div>
-            </div>
             </div>
             {/* /End replace */}
           </div>

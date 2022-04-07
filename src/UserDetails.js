@@ -117,6 +117,7 @@ export default function SignUp() {
                   placeholder="Enter your email"
                   value={userDetails.email}
                   onChange={(e)=>{setUserDetails({...userDetails,email:e.target.value})}}
+                  disabled
                 />
               </div>
             </div>
@@ -128,6 +129,7 @@ export default function SignUp() {
               <div className="mt-1">
                 <input
                   type="tel"
+                  maxLength="10"
                   className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   placeholder="Enter your phone number"
                   onChange={(e)=>{setUserDetails({...userDetails,number:e.target.value})}}
@@ -141,13 +143,12 @@ export default function SignUp() {
               </label>
               <select
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                defaultValue=""
+                defaultValue="Other"
                 onChange={(e)=>{setUserDetails({...userDetails,gender:e.target.value})}}
               >
                 <option>Male</option>
                 <option>Female</option>
                 <option>Other</option>
-                <option></option>
               </select>
             </div>
 
