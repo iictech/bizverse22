@@ -25,27 +25,28 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import technoLogo from './techno_logo.png'
 import iicLogo from './iic_logo.png'
+import logo from './logo.png'
 const solutions = [
   {
-    name: 'Biz-Plan',
-    description: 'Biz-Plan is an opportunity to buckle young entrepreneurs with wise business ideas to stand a chance to get well rewarded',
+    name: 'Brain-It-Out',
+    description: 'An exciting quiz where participants are quizzed on relevant business, technology and innovation topics and the team with the most answers correct, wins the game',
     href: '#',
     icon: ChartBarIcon,
   },
   {
-    name: 'Case Study',
-    description: 'In a case challenge, teams compete against each other to develop the best solution to real business scenarios within a time period.',
+    name: 'HackUrWay',
+    description: 'A platform where students will have to solve problems on relevant daily life problems by inculcating their problem-solving skills.',
     href: '#',
     icon: CursorClickIcon,
   },
   { 
-    name: 'Stockify', 
-    description: "Stockify is an online simulation trading game where you create and manage your own portfolio and compete with other players in a risk-free environment.", 
+    name: 'Logo and Poster Designing', 
+    description: "A creative outlet for students with a hidden marketing and designing side.", 
     href: '#', 
     icon: TrendingUpIcon },
   {
-    name: 'Brain-it-Out',
-    description: "Brain-it-Out is a team event where each team is quizzed on relevant business topics and the market scenario.",
+    name: 'IPR Workshop',
+    description: "Introduction to the Patent Side of the Business World to help you achieve an identity for your startup idea",
     href: '#',
     icon: AcademicCapIcon,
   },
@@ -205,8 +206,8 @@ export default function Example() {
                 <div>
                   <img
                     className="h-8 w-auto"
-                    src=""
-                    alt="Workflow"
+                    src={logo}
+                    alt=""
                   />
                 </div>
                 <div className="-mr-2">
