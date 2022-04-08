@@ -6,3 +6,4 @@ starlette
 typing
 dnspython
 pydantic
+uvicorn
