@@ -1,6 +1,6 @@
 import logo from './logo.png';
 import { useEffect, useState } from 'react';
-import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
+import {db,auth, onAuthStateChanged, doc, setDoc, getDoc} from "./firebase";
 import {useNavigate} from 'react-router-dom';
 import { nanoid } from 'nanoid';
 export default function SignUp() {
@@ -21,6 +21,16 @@ export default function SignUp() {
     department: false,
     city: false,
     state: false,
+    reg_events:{
+      brain_it_out: false,
+      ipr_workshop: false,
+      hackathon: {
+        is_registered: false,
+        position: null,
+        team_id: null,
+      },
+      logo_and_poster: false
+    }
   });
   async function updateUser(){
     try {
@@ -51,13 +61,20 @@ export default function SignUp() {
     }
   }
   useEffect(()=>{
-    onAuthStateChanged(auth, (user)=>{
+    onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
         setUserDetails({...userDetails,email:user.email,name:{
           first:user.displayName.split(' ')[0],
           last:user.displayName.split(' ')[1]
         }});
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          if(docSnap.data()?.evg_id){
+               navigate('/dashboard')
+          }
+        }
       }
     });
   },[])

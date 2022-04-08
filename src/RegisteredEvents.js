@@ -1,9 +1,12 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { BellIcon, MenuIcon, XIcon,ChartBarIcon,
+  AcademicCapIcon,
+  CursorClickIcon,
+  TrendingUpIcon, } from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
-import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
+import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Registered Events', href: '/registered-events', current: true },
@@ -18,22 +21,122 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+function RegisteredEventsList({registeredEvents}){
+  if(registeredEvents.length !== 0){
+    return (<>
+        {registeredEvents.map((item) => (
+          <div
+            key={item.name}
+            className="m-3 p-3 flex flex-col justify-between rounded-lg hover:bg-gray-300"
+          >
+            <div className="flex md:h-full lg:flex-col">
+              <div className="flex-shrink-0">
+                <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-12 sm:w-12">
+                  <item.icon className="h-6 w-6" aria-hidden="true" />
+                </span>
+              </div>
+              <div className="ml-4 md:flex-1 md:flex md:flex-col md:justify-between lg:ml-0 lg:mt-4">
+                <div>
+                  <p className="text-base font-medium text-gray-900">{item.name}</p>
+                  <p className="mt-1 text-sm text-gray-700"><item.description /></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </>)
+  } else {
+    return (<>
+      <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg h-96 text-xl font-semibold ">
+      <div className="mt-5">
+      You have not registered for any event
+      </div>
+      <br />
+      <a
+        href="/all-events"
+        type="button"
+        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        View All Events
+      </a>
+    </div>
+    </>)
+  }
+}
+const eventNameKeyMap = {
+  brain_it_out: 'Brain-It-Out',
+  ipr_workshop: 'IPR Workshop',
+  hackathon: 'HackUrWay',
+  logo_and_poster: 'Logo and Poster Designing'
+}
+
+const eventIconKeyMap = {
+  brain_it_out: ChartBarIcon,
+  ipr_workshop: AcademicCapIcon,
+  hackathon: CursorClickIcon,
+  logo_and_poster: TrendingUpIcon
+}
 export default function RegisteredEvents() {
   const [userId, setUserId] = useState('');
+  const [registeredEvents,setRegisteredEvents] = useState([]);
   const [userData, setUserData]= useState({
     name: '',
     email: '',
     imageUrl: false,
   });
   useEffect(()=>{
-    onAuthStateChanged(auth, (user)=>{
+    onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
-        setUserData({
-          name: user.displayName,
-          email: user.email,
-          imageUrl: user.photoURL,
-        })
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          console.log(docSnap)
+          setUserData({
+            name: {
+              first: user.displayName.split(' ')[0],
+              last: user.displayName.split(' ')[1]
+            },
+            email: user.email,
+            imageUrl: user.photoURL,
+            ...docSnap.data(),
+          })
+          if(docSnap.data()?.reg_events){
+            const a = [];
+            Object.keys(docSnap.data()?.reg_events).forEach(key=>{
+              if(docSnap.data()?.reg_events[key]){
+                if(key === 'hackathon'){
+                  if(docSnap.data()?.reg_events[key].is_registered){
+                    a.push({
+                      name: eventNameKeyMap[key],
+                      description: ()=>{
+                        return(<>
+                        EVG ID : {docSnap.data().evg_id} <br/>
+                        Team ID : {docSnap.data().team_id} <br />
+                        {docSnap.data().reg_events.hackathon.is_lead ? `Team Leader : ${docSnap.data().name.first + ' ' + docSnap.data().name.last}`:''}
+                        </>)
+                      },
+                      icon: eventIconKeyMap[key]
+                    })
+                  }
+                } else {
+                  a.push({
+                    name: eventNameKeyMap[key],
+                    description: ()=>{
+                      return(<>
+                      EVG ID : {docSnap.data().evg_id}
+                      </>)
+                    },
+                    icon: eventIconKeyMap[key]
+                  })
+                }
+              }
+            })
+            setRegisteredEvents(a)
+          }
+        } else {
+          console.log("User Not Found");
+        }
       }
     });
   },[])
@@ -202,18 +305,7 @@ export default function RegisteredEvents() {
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
             {/* Replace with your content */}
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-              <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg h-96 text-xl font-semibold ">
-                <div className="mt-5">
-                You have not registered for any event
-                </div>
-                <br />
-                <button
-                  type="button"
-                  className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  View All Events
-                </button>
-              </div>
+              <RegisteredEventsList registeredEvents={registeredEvents}/>
             </div>
             {/* /End replace */}
           </div>

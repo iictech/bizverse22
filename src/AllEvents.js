@@ -3,7 +3,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon,
   ChartBarIcon,
   AcademicCapIcon,
-  CheckCircleIcon,
   CursorClickIcon,
   TrendingUpIcon, } from '@heroicons/react/outline'
 import logo from "./logo.png"

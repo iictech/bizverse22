@@ -6,7 +6,8 @@ IdentificationIcon,
 ChipIcon,
 LocationMarkerIcon,
 MailIcon,
-UsersIcon} from '@heroicons/react/outline'
+UsersIcon,
+PhoneIcon} from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
@@ -262,6 +263,11 @@ export default function Dashboard() {
                   <div className='flex p-4 items-center justify-center flex-col'>
                   <UsersIcon className="h-6 w-6" aria-hidden="true"/>
                   <p>Gender : {userData.gender}</p>
+                  </div>
+
+                  <div className='flex p-4 items-center justify-center flex-col'>
+                  <PhoneIcon className="h-6 w-6" aria-hidden="true"/>
+                  <p>Phone Number : {userData.number}</p>
                   </div>
 
                 </div>
