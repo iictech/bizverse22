@@ -22,8 +22,8 @@ async def root():
     '''
     return RedirectResponse("/docs")
 
-@apiRouter.post("/registered")
-async def registered(evgId: str):
+@apiRouter.post("/register")
+async def register(evgId: str):
     exception = HTTPException(
         status_code=status.HTTP_404_NOT_FOUND)
     body = f"""
@@ -49,3 +49,90 @@ Bizverse Team
     except:
         raise exception
 
+@apiRouter.post("/brainitout")
+async def brain_it_out(evgId: str):
+    exception = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND)
+    
+    subject = "Successfully Registered for Brain-It-Out, Bizverse 2022"
+    body = """
+Greetings from Bizverse,
+
+Regards,
+Bizverse Team 
+    """
+
+    if not isValidId(evgId):
+        raise exception
+    
+    try:
+        mail = await getUserMail(evgId)
+        await sendMail(subject, body, mail)
+    except:
+        raise exception
+
+@apiRouter.post("/iprworkshop")
+async def ipr_workshop(evgId: str):
+    exception = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND)
+    
+    subject = "Successfully Registered for IPR Workshop, Bizverse 2022"
+    body = """
+Greetings from Bizverse,
+
+Regards,
+Bizverse Team 
+    """
+
+    if not isValidId(evgId):
+        raise exception
+    
+    try:
+        mail = await getUserMail(evgId)
+        await sendMail(subject, body, mail)
+    except:
+        raise exception
+
+@apiRouter.post("/logoandposter")
+async def logo_and_poster(evgId: str):
+    exception = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND)
+    
+    subject = "Successfully Registered for Logo and Poster Designing, Bizverse 2022"
+    body = """
+Greetings from Bizverse,
+
+Regards,
+Bizverse Team 
+    """
+
+    if not isValidId(evgId):
+        raise exception
+    
+    try:
+        mail = await getUserMail(evgId)
+        await sendMail(subject, body, mail)
+    except:
+        raise exception
+
+@apiRouter.post("/hackathon")
+async def hackathon(teamEvgId: str, evgId: str):
+    exception = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND)
+    
+    subject = "Successfully Registered for HackUrWay, Bizverse 2022"
+    body = """
+Greetings from Bizverse,
+
+Regards,
+Bizverse Team 
+    """
+
+    if not isValidId(evgId):
+        raise exception
+    
+    try:
+        mail = await getUserMail(evgId)
+        await sendMail(subject, body, mail)
+    except:
+        raise exception
