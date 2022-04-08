@@ -5,7 +5,7 @@ from email.header import Header
 from email.utils import formataddr
 
 
-def sendMail(subject, body, toMail):
+async def sendMail(subject, body, toMail):
     msg = EmailMessage()
     s = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     s.login(config.mailID, config.mailPass)

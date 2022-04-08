@@ -45,7 +45,7 @@ Bizverse Team
         raise exception
     try:
         mail = await getUserMail(evgId)
-        sendMail(subject, body, mail)
+        await sendMail(subject, body, mail)
     except:
         raise exception
 
