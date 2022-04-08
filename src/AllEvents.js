@@ -46,6 +46,36 @@ const events = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+async function displayRazorpay(){
+  //POST request to Nodejs
+  const data = await fetch("http://localhost:5000/razorpay",{
+      method: 'POST'
+  }).then((t)=> t.json())
+
+  console.log(data)
+
+  const options = {
+      key: "rzp_test_8kbWdeJfhioDsg",
+      currency: data.currency,
+      amount: data.amount,
+      description: 'Wallet Transaction',
+      image: 'http://localhost:5000/logo.jpg',
+      order_id: data.id,
+      handler: function(response){
+          alert("PAYMENT ID: " + response.razorpay_payment_id)
+          alert("ORDER_ID: " + response.razorpay_order_id)
+      },
+      prefill: {
+          name: 'PRIYASU GUIN',
+          email: 'priyasuguin4@gmail.com',
+          contact: '8697302960'
+      }
+  };
+
+  const paymentObject = new window.Razorpay(options)
+
+  paymentObject.open()
+} 
 
 export default function RegisteredEvents() {
   const [userId, setUserId] = useState('');
@@ -251,6 +281,7 @@ export default function RegisteredEvents() {
                                   <button
                                     type="button"
                                     className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    onClick={()=>{displayRazorpay()}}
                                   >
                                     Register Now &nbsp;<span aria-hidden="true">&rarr;</span>
                                   </button>

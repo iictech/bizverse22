@@ -35,7 +35,7 @@ export default function SignUp() {
   async function updateUser(){
     try {
       await setDoc(doc(db, "users", userId), {...userDetails,
-      evg_id:'22EVG'+nanoid(3).replace('-','Z').toUpperCase()+Date.now().toString().substr(7)
+      evg_id:'22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7)
       });
     } catch (error) {
       setError('Something went wrong... please try again');

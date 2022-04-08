@@ -7,6 +7,7 @@ import { BellIcon, MenuIcon, XIcon,ChartBarIcon,
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
+
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Registered Events', href: '/registered-events', current: true },
@@ -24,6 +25,7 @@ function classNames(...classes) {
 function RegisteredEventsList({registeredEvents}){
   if(registeredEvents.length !== 0){
     return (<>
+        <div className="sm:grid grid-cols-2">
         {registeredEvents.map((item) => (
           <div
             key={item.name}
@@ -44,6 +46,7 @@ function RegisteredEventsList({registeredEvents}){
             </div>
           </div>
         ))}
+        </div>
       </>)
   } else {
     return (<>
