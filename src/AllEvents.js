@@ -29,6 +29,7 @@ const events = [
     payment: true,
     key: 'brain_it_out',
     registered: false,
+    price: '30'
   },
   {
     name: 'HackUrWay',
@@ -38,6 +39,7 @@ const events = [
     payment: true,
     key: 'hackathon',
     registered: false,
+    price: '100'
   },
   { 
     name: 'Logo and Poster Designing', 
@@ -47,6 +49,7 @@ const events = [
     payment: true,
     key: 'logo_and_poster',
     registered: false,
+    price: '20'
   },
   {
     name: 'IPR Workshop',
@@ -56,6 +59,7 @@ const events = [
     payment: false,
     key: 'ipr_workshop',
     registered: false,
+    price: 'free'
   },
 ]
 
@@ -64,6 +68,13 @@ const eventNameKeyMap = {
   ipr_workshop: 'IPR Workshop',
   hackathon: 'HackUrWay',
   logo_and_poster: 'Logo and Poster Designing'
+}
+
+const eventpriceKeyMap = {
+  brain_it_out: 30,
+  ipr_workshop: 0,
+  hackathon: 100,
+  logo_and_poster: 20
 }
 
 function classNames(...classes) {
@@ -123,7 +134,13 @@ export default function RegisteredEvents() {
   async function displayRazorpay(key){
     //POST request to Nodejs
     const data = await fetch("https://stormy-journey-29948.herokuapp.com/razorpay",{
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          price: eventpriceKeyMap[key]
+        }),
     }).then((t)=> t.json())
     const options = {
         key: "rzp_test_8kbWdeJfhioDsg",
