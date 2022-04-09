@@ -19,6 +19,10 @@ for (let i = 2; i < 39; i++) {
     days.push(
       { date: '2022-04-0'+i, events: [{ id: 2, name: 'BizVerse', time: 'All Day', href: '/all-events' }], isCurrentMonth: true},
     )
+  } else if(i === 17) {
+    days.push(
+      { date: '2022-04-0'+i, events: [{ id: 2, name: 'BizVerse', time: 'All Day', href: '/all-events' }], isCurrentMonth: true},
+    )
   } else if (i > 30){
     days.push(
       { date: '2022-04-0'+(i-30), events: [], isCurrentMonth: false},

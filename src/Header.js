@@ -51,9 +51,7 @@ const events = [
     icon: AcademicCapIcon,
   },
 ]
-const callsToAction = [
-  { name: 'View all events', href: '#', icon: CheckCircleIcon },
-]
+const callsToAction = []
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -165,10 +163,10 @@ export default function Example() {
                   </>
                 )}
               </Popover>
-              <a href="#" className="text-base font-medium text-gray-100 hover:text-gray-500">
+              <a href="#about-us" className="text-base font-medium text-gray-100 hover:text-gray-500">
                 About Us
               </a>
-              <a href="#" className="text-base font-medium text-gray-100 hover:text-gray-500">
+              <a href="#contact-us" className="text-base font-medium text-gray-100 hover:text-gray-500">
                 Contact Us
               </a>
             </Popover.Group>

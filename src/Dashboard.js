@@ -37,6 +37,9 @@ export default function Dashboard() {
     evg_id: 'Loading...',
   });
   useEffect(()=>{
+    fetch('https://stormy-journey-29948.herokuapp.com/').then(()=>{
+      console.log('Welcome to the dashboard');
+    })
     onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
