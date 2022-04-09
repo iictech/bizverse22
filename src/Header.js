@@ -231,22 +231,16 @@ export default function Example() {
                       </a>
                     ))}
                   </div>
-                  <div className="mt-8 text-base">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      {' '}
-                      View all events <span aria-hidden="true">&rarr;</span>
-                    </a>
-                  </div>
                 </nav>
               </div>
             </div>
             <div className="py-6 px-5">
               <div className="grid grid-cols-2 gap-4">
-                <a href="#" className="rounded-md text-base font-medium text-gray-100 hover:text-gray-400">
+                <a href="#about-us" className="rounded-md text-base font-medium text-gray-100 hover:text-gray-400">
                   About Us
                 </a>
 
-                <a href="#" className="rounded-md text-base font-medium text-gray-100 hover:text-gray-400">
+                <a href="#contact-us" className="rounded-md text-base font-medium text-gray-100 hover:text-gray-400">
                   Contact Us
                 </a>
               </div>
