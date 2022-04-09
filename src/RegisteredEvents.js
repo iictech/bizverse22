@@ -114,7 +114,7 @@ export default function RegisteredEvents() {
                       description: ()=>{
                         return(<>
                         EVG ID : {docSnap.data().evg_id} <br/>
-                        Team ID : {docSnap.data().team_id} <br />
+                        Team ID : {docSnap.data().reg_events.hackathon.team_id} <br />
                         {docSnap.data().reg_events.hackathon.is_lead ? `Team Leader : ${docSnap.data().name.first + ' ' + docSnap.data().name.last}`:''}
                         </>)
                       },
