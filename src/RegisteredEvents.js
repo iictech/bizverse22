@@ -94,7 +94,6 @@ export default function RegisteredEvents() {
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          console.log(docSnap)
           setUserData({
             name: {
               first: user.displayName.split(' ')[0],

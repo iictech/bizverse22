@@ -7,7 +7,8 @@ import { BellIcon, MenuIcon, XIcon,
   TrendingUpIcon, } from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
-import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
+import {db,auth, onAuthStateChanged, doc, getDoc, updateDoc} from "./firebase";
+import { async } from '@firebase/util';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Registered Events', href: '/registered-events', current: false },
@@ -24,58 +25,42 @@ const events = [
     description: 'An exciting quiz where participants are quizzed on relevant business, technology and innovation topics and the team with the most answers correct, wins the game',
     href: '#',
     icon: ChartBarIcon,
+    payment: true,
+    key: 'brain_it_out',
+    registered: false,
   },
   {
     name: 'HackUrWay',
     description: 'A platform where students will have to solve problems on relevant daily life problems by inculcating their problem-solving skills.',
     href: '#',
     icon: CursorClickIcon,
+    payment: true,
+    key: 'hackathon',
+    registered: false,
   },
   { 
     name: 'Logo and Poster Designing', 
     description: "A creative outlet for students with a hidden marketing and designing side.", 
     href: '#', 
-    icon: TrendingUpIcon },
+    icon: TrendingUpIcon,
+    payment: true,
+    key: 'logo_and_poster',
+    registered: false,
+  },
   {
     name: 'IPR Workshop',
     description: "Introduction to the Patent Side of the Business World to help you achieve an identity for your startup idea",
     href: '#',
     icon: AcademicCapIcon,
+    payment: false,
+    key: 'ipr_workshop',
+    registered: false,
   },
 ]
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-async function displayRazorpay(){
-  //POST request to Nodejs
-  const data = await fetch("http://localhost:5000/razorpay",{
-      method: 'POST'
-  }).then((t)=> t.json())
 
-  console.log(data)
-
-  const options = {
-      key: "rzp_test_8kbWdeJfhioDsg",
-      currency: data.currency,
-      amount: data.amount,
-      description: 'Wallet Transaction',
-      image: 'http://localhost:5000/logo.jpg',
-      order_id: data.id,
-      handler: function(response){
-          alert("PAYMENT ID: " + response.razorpay_payment_id)
-          alert("ORDER_ID: " + response.razorpay_order_id)
-      },
-      prefill: {
-          name: 'PRIYASU GUIN',
-          email: 'priyasuguin4@gmail.com',
-          contact: '8697302960'
-      }
-  };
-
-  const paymentObject = new window.Razorpay(options)
-
-  paymentObject.open()
-} 
 
 export default function RegisteredEvents() {
   const [userId, setUserId] = useState('');
@@ -85,17 +70,101 @@ export default function RegisteredEvents() {
     imageUrl: false,
   });
   useEffect(()=>{
-    onAuthStateChanged(auth, (user)=>{
+    onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
         setUserData({
           name: user.displayName,
           email: user.email,
           imageUrl: user.photoURL,
-        })
+        });
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData({
+            name: user.displayName,
+            email: user.email,
+            imageUrl: user.photoURL,
+            ...docSnap.data(),
+          });
+          if(docSnap.data()?.reg_events){
+            events.forEach((event,i)=>{
+              if(event.key === 'hackathon'){
+                if(docSnap.data()?.reg_events[event.key].is_registered){
+                  events[i].registered = true;
+                }
+              } else {
+                if(docSnap.data()?.reg_events[event.key]){
+                  events[i].registered = true;
+                }
+              }
+            })
+          }
+        }
       }
     });
-  },[])
+  },[]);
+  async function displayRazorpay(key){
+    //POST request to Nodejs
+    const data = await fetch("http://localhost:5000/razorpay",{
+        method: 'POST'
+    }).then((t)=> t.json())
+  
+    console.log(data)
+  
+    const options = {
+        key: "rzp_test_8kbWdeJfhioDsg",
+        currency: data.currency,
+        amount: data.amount,
+        description: 'Register for BizVerse',
+        image: 'http://localhost:5000/logo.jpg',
+        order_id: data.id,
+        handler: function(response){
+            alert("PAYMENT ID: " + response.razorpay_payment_id)
+            alert("ORDER_ID: " + response.razorpay_order_id)
+        },
+        prefill: {
+            name: userData.displayName,
+            email: userData.email,
+            contact: userData.number,
+        },
+        notes: {
+           evg_id: userData.evg_id,
+        }
+    };
+  
+    const paymentObject = new window.Razorpay(options)
+    paymentObject.on('payment.failed', function (response){
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+  });
+    paymentObject.open()
+  } 
+
+  async function resgisterEvent(key){
+    if(key === 'hackathon'){
+      await updateDoc(doc(db, "users", userId), {
+        reg_events: {
+          ...userData.reg_events,
+          hackathon: {
+            is_registered: true,
+          }
+        }
+      });
+    } else {
+      await updateDoc(doc(db, "users", userId), {
+        reg_events: {
+          ...userData.reg_events,
+          [key]: true,
+        }
+      });
+    }
+  }
   return (
     <>
       <div className="min-h-full">
@@ -278,13 +347,20 @@ export default function RegisteredEvents() {
                                     <p className="mt-1 text-sm text-gray-700">{item.description}</p>
                                   </div>
                                   <p className="mt-2 text-sm font-medium text-indigo-600 lg:mt-3">
-                                  <button
-                                    type="button"
-                                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    onClick={()=>{displayRazorpay()}}
-                                  >
-                                    Register Now &nbsp;<span aria-hidden="true">&rarr;</span>
-                                  </button>
+                                  {!item.registered ? 
+                                    <button
+                                      type="button"
+                                      className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                      onClick={()=>{if(item.payment){
+                                        displayRazorpay(item.key);
+                                      } else {
+                                        resgisterEvent(item.key);
+                                      }
+                                    }}
+                                    >
+                                      Register Now &nbsp;<span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                  : 'Registered'}
                                   </p>
                                 </div>
                               </div>
