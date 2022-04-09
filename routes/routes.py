@@ -102,6 +102,8 @@ Greetings from BizVerse,
 
 We have successfully received your registration for the event “IPR Workshop”. 
 
+In this workshop, you will get to know about the importance of Intellectual Property Rights(IPR) amongst start-ups and the need of adopting a proactive approach towards protecting IPRs. Moreover, the topics such as trademark, copyright, patents and trade secrets will be thoroughly explained.
+
 For rules and further details, please keep checking your email.
 
 We hope you enjoy the event!
