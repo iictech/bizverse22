@@ -14,7 +14,7 @@ export default function AboutUs() {
         <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">About Us</h1>
           <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
-          Inspired by the objectives and vision of IIC, a MHRD initiative, we have established IIC TMSL. This cell will be conducting various innovation and entrepreneurship related activities along with organizing periodic workshops, seminars and interactions with entrepreneurs and innovators. Students will get a chance to showcase their talents by participating in various events like Hackathons, idea competitions etc.
+          About Us - The Institution's Innovation Council (IIC), an MHRD initiative, was formed with the objective of prospering young minds full of innovative ideas and help them succeed in life by imparting knowledge on innovation, technology, entrepreneurship and start-ups through various workshops, seminars, fests and talk sessions. We provide students a platform where they can explore, showcase and sharpen their talents through various activities that our cell organizes throughout the year. Our ultimate goal is to prepare students for their future endeavours.
           </p>
         </div>
       </div>

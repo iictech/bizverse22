@@ -194,7 +194,7 @@ export default function RegisteredEvents() {
                         <img className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
                       </div>
                       <div className="ml-3">
-                        <div className="text-base font-medium leading-none text-white">{userData.name.first + ' ' + userData.name.last}</div>
+                        <div className="text-base font-medium leading-none text-white">{userData.displayName}</div>
                         <div className="text-sm font-medium leading-none text-gray-400">{userData.email}</div>
                       </div>
                       <button

@@ -25,8 +25,7 @@ export default function Example() {
                     <span className="block text-indigo-400">2022</span>
                   </h1>
                   <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                    Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui Lorem cupidatat commodo. Elit sunt
-                    amet fugiat veniam occaecat fugiat.
+                  BizVerse is an Intra E-Summit under Envisage, the second largest E-Summit in Kolkata. It is organised by IIC-TMSL, the official E-Cell of TMSL, which is backed by MHRD of India. IIC TMSL offers young innovative minds a platform to showcase their creative and witty minds by facilitating various events related to business and technology like Brain-It-Out, HackUrWay and Designing competition.
                   </p>
                   <div className="mt-10 sm:mt-12">
                   <a
