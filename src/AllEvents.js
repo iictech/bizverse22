@@ -7,8 +7,8 @@ import { BellIcon, MenuIcon, XIcon,
   TrendingUpIcon, } from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
-import {Route, useNavigate} from 'react-router-dom';
-import {db,auth, onAuthStateChanged, doc, getDoc, updateDoc, arrayUnion} from "./firebase";
+import {useNavigate} from 'react-router-dom';
+import {db,auth, onAuthStateChanged, doc, getDoc, updateDoc, arrayUnion, collection, setDoc} from "./firebase";
 import { nanoid } from 'nanoid';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
@@ -75,7 +75,6 @@ export default function RegisteredEvents() {
   const navigate = useNavigate();
   const [hacReg, setHacReg] = useState(false);
   const [teamEvgId, setTeamEvgId] = useState('');
-  setTeamEvgId('22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7));
   const [hacRegData, setHacRegData] = useState({
     team_name: '',
     team_lead: '',
@@ -90,6 +89,8 @@ export default function RegisteredEvents() {
     imageUrl: false,
   });
   useEffect(()=>{
+    setTeamEvgId('22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7));
+    setHacRegData({...hacRegData,team_lead:userData.evg_id});
     onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
@@ -489,9 +490,8 @@ export default function RegisteredEvents() {
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={async (e)=>{
-                    setHacRegData({...hacRegData,team_lead:userData.evg_id});
                     e.target.innerText = 'Loading ...';
-                    await updateDoc(doc(db, `events/hackathon/${teamEvgId}`,teamEvgId), {
+                    await setDoc(doc(db, `events/hackathon/${teamEvgId}/${teamEvgId}`), {
                       ...hacRegData
                     });
                     displayRazorpay('hackathon');
