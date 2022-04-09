@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, updateProfile, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, updateDoc} from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion} from "firebase/firestore";
 
 const provider = new GoogleAuthProvider();
 
@@ -20,5 +20,5 @@ const db = getFirestore(app);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 
-export { db,analytics, auth, updateProfile, provider, signInWithPopup, onAuthStateChanged, doc, setDoc,getDoc,signOut, updateDoc };
+export { db,analytics, auth, updateProfile, provider, signInWithPopup, onAuthStateChanged, doc, setDoc,getDoc,signOut, updateDoc, arrayUnion };
 export default app;

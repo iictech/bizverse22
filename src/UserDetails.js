@@ -8,6 +8,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [userId, setUserId] = useState('');
+  const [evgId,setEvgId] = useState('');
   const [userDetails, setUserDetails] = useState({
     name: {
       first: '',
@@ -26,8 +27,8 @@ export default function SignUp() {
       ipr_workshop: false,
       hackathon: {
         is_registered: false,
-        position: null,
-        team_id: null,
+        is_lead: false,
+        team_id: '',
       },
       logo_and_poster: false
     }
@@ -35,7 +36,7 @@ export default function SignUp() {
   async function updateUser(){
     try {
       await setDoc(doc(db, "users", userId), {...userDetails,
-      evg_id:'22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7)
+      evg_id: evgId
       });
     } catch (error) {
       setError('Something went wrong... please try again');
@@ -52,7 +53,10 @@ export default function SignUp() {
     if(e){
     setError('');
     setMessage('Saving your details...');
-     updateUser().then(()=>{
+     updateUser().then(async ()=>{
+       await fetch(`https://mail-micros.herokuapp.com/register?evgId=${evgId}`,{
+        method: 'POST'
+       })
           setMessage('Your details have been saved');
           navigate('/dashboard');
         }).catch(()=>{
@@ -61,6 +65,7 @@ export default function SignUp() {
     }
   }
   useEffect(()=>{
+    setEvgId('22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7));
     onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)

@@ -7,8 +7,9 @@ import { BellIcon, MenuIcon, XIcon,
   TrendingUpIcon, } from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
-import {db,auth, onAuthStateChanged, doc, getDoc, updateDoc} from "./firebase";
-import { async } from '@firebase/util';
+import {Route, useNavigate} from 'react-router-dom';
+import {db,auth, onAuthStateChanged, doc, getDoc, updateDoc, arrayUnion} from "./firebase";
+import { nanoid } from 'nanoid';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Registered Events', href: '/registered-events', current: false },
@@ -57,12 +58,31 @@ const events = [
     registered: false,
   },
 ]
+
+const eventNameKeyMap = {
+  brain_it_out: 'Brain-It-Out',
+  ipr_workshop: 'IPR Workshop',
+  hackathon: 'HackUrWay',
+  logo_and_poster: 'Logo and Poster Designing'
+}
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 
 export default function RegisteredEvents() {
+  const navigate = useNavigate();
+  const [hacReg, setHacReg] = useState(false);
+  const [teamEvgId, setTeamEvgId] = useState('');
+  setTeamEvgId('22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7));
+  const [hacRegData, setHacRegData] = useState({
+    team_name: '',
+    team_lead: '',
+    m1: '',
+    m2: '',
+    m3: '',
+  });
   const [userId, setUserId] = useState('');
   const [userData, setUserData]= useState({
     name: '',
@@ -106,22 +126,18 @@ export default function RegisteredEvents() {
   },[]);
   async function displayRazorpay(key){
     //POST request to Nodejs
-    const data = await fetch("http://localhost:5000/razorpay",{
+    const data = await fetch("https://stormy-journey-29948.herokuapp.com/razorpay",{
         method: 'POST'
     }).then((t)=> t.json())
-  
-    console.log(data)
-  
     const options = {
         key: "rzp_test_8kbWdeJfhioDsg",
         currency: data.currency,
         amount: data.amount,
-        description: 'Register for BizVerse',
-        image: 'http://localhost:5000/logo.jpg',
+        description: eventNameKeyMap[key],
+        image: 'https://stormy-journey-29948.herokuapp.com/logo.jpg',
         order_id: data.id,
         handler: function(response){
-            alert("PAYMENT ID: " + response.razorpay_payment_id)
-            alert("ORDER_ID: " + response.razorpay_order_id)
+            resgisterEvent(key);
         },
         prefill: {
             name: userData.displayName,
@@ -135,13 +151,7 @@ export default function RegisteredEvents() {
   
     const paymentObject = new window.Razorpay(options)
     paymentObject.on('payment.failed', function (response){
-      alert(response.error.code);
-      alert(response.error.description);
-      alert(response.error.source);
-      alert(response.error.step);
-      alert(response.error.reason);
-      alert(response.error.metadata.order_id);
-      alert(response.error.metadata.payment_id);
+      alert("Payment Failed");
   });
     paymentObject.open()
   } 
@@ -153,9 +163,14 @@ export default function RegisteredEvents() {
           ...userData.reg_events,
           hackathon: {
             is_registered: true,
+            is_lead: true,
+            team_id: teamEvgId,
           }
         }
       });
+      await fetch(`https://mail-micros.herokuapp.com/hackathon?evgId=${userData.evg_id}&teamEvgId=${teamEvgId}`,{
+      method: 'POST'
+    });
     } else {
       await updateDoc(doc(db, "users", userId), {
         reg_events: {
@@ -163,7 +178,19 @@ export default function RegisteredEvents() {
           [key]: true,
         }
       });
+      const rMap = {
+        brain_it_out: 'brainitout',
+        ipr_workshop: 'iprworkshop',
+        logo_and_poster: 'logoandposter'
+      }
+      await fetch(`https://mail-micros.herokuapp.com/${rMap[key]}?evgId=${userData.evg_id}`,{
+        method: 'POST'
+      });
     }
+    await updateDoc(doc(db, "events", key), {
+      registered: arrayUnion(userData.evg_id),
+    });
+    navigate('/registered-events');
   }
   return (
     <>
@@ -325,9 +352,9 @@ export default function RegisteredEvents() {
             </div>
           </header>
         </div>
-
         <main className="-mt-32">
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
+            <div className={hacReg ? 'hidden':''}>
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6 sm:grid grid-cols-2">
             {events.map((item) => (
                             <a
@@ -351,10 +378,16 @@ export default function RegisteredEvents() {
                                     <button
                                       type="button"
                                       className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                      onClick={()=>{if(item.payment){
-                                        displayRazorpay(item.key);
+                                      onClick={(e)=>{
+                                      e.target.innerText = 'Loading ...';
+                                      if(item.key === 'hackathon'){
+                                        setHacReg(true);
                                       } else {
-                                        resgisterEvent(item.key);
+                                        if(item.payment){
+                                          displayRazorpay(item.key);
+                                        } else {
+                                          resgisterEvent(item.key);
+                                        }
                                       }
                                     }}
                                     >
@@ -367,8 +400,113 @@ export default function RegisteredEvents() {
                             </a>
                           ))}
             </div>
+            </div>
+            <div id="hac_reg" className={hacReg ? '':'hidden'}>
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+              <div className="space-y-6">
+                <p className='font-bold text-lg'>Register For Hackathon</p>
+              
+              <div>
+              <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
+               Team Name
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="Enter your team name"
+                  onChange={(e)=>{
+                    setHacRegData({...hacRegData,team_name:e.target.value})
+                  }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
+               Team Leader EVG ID
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder=""
+                  disabled
+                  value={userData.evg_id}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
+               Member 1 EVG ID
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="Member 1 EVG ID"
+                  onChange={(e)=>{
+                    setHacRegData({...hacRegData,m1:e.target.value})
+                  }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
+               Member 2 EVG ID
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="Member 2 EVG ID"
+                  onChange={(e)=>{
+                    setHacRegData({...hacRegData,m2:e.target.value})
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
+               Member 3 EVG ID
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="Member 3 EVG ID"
+                  onChange={(e)=>{
+                    setHacRegData({...hacRegData,m3:e.target.value})
+                  }}
+                />
+              </div>
+            </div>
+
+            <div>
+                <button
+                  type="submit"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={async (e)=>{
+                    setHacRegData({...hacRegData,team_lead:userData.evg_id});
+                    e.target.innerText = 'Loading ...';
+                    await updateDoc(doc(db, `events/hackathon/${teamEvgId}`,teamEvgId), {
+                      ...hacRegData
+                    });
+                    displayRazorpay('hackathon');
+                  }}
+                >
+                  Save and Register
+                </button>
+              </div>
+
+              </div>
+            </div>
+        </div>
           </div>
         </main>
+        
       </div>
     </>
   )
