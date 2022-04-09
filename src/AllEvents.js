@@ -90,18 +90,13 @@ export default function RegisteredEvents() {
   });
   useEffect(()=>{
     setTeamEvgId('22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7));
-    setHacRegData({...hacRegData,team_lead:userData.evg_id});
     onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
-        setUserData({
-          name: user.displayName,
-          email: user.email,
-          imageUrl: user.photoURL,
-        });
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
+          setHacRegData({...hacRegData,team_lead:docSnap.data().evg_id});
           setUserData({
             name: user.displayName,
             email: user.email,
