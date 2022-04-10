@@ -237,17 +237,17 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
         if not isValidId(member1EvgId):
             raise exception
         print(member1EvgId)
-        updateUserHackathon(member1EvgId,teamEvgId)
+        await updateUserHackathon(member1EvgId,teamEvgId)
 
     if member2EvgId:
         if not isValidId(member2EvgId):
             raise exception
-        updateUserHackathon(member1EvgId,teamEvgId)
+        await updateUserHackathon(member1EvgId,teamEvgId)
     
     if member3EvgId:
         if not isValidId(member3EvgId):
             raise exception
-        updateUserHackathon(member1EvgId,teamEvgId)
+        await updateUserHackathon(member1EvgId,teamEvgId)
     print("done checks")
 
 
