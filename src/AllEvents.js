@@ -184,10 +184,10 @@ export default function RegisteredEvents() {
       await setDoc(doc(db, `events/hackathon/${teamEvgId}/${teamEvgId}`), {
         ...hacRegData
       });
-      let postUrl = `https://mail-micros.herokuapp.com/hackathon?leadEvgId=${userData.evg_id}&teamEvgId=${teamEvgId}`
+      let postUrl = `https://mail-micros.herokuapp.com/mailteam?leadEvgId=${userData.evg_id}&teamEvgId=${teamEvgId}`
       if(hacRegData.m1) postUrl += `&member1EvgId=${hacRegData.m1}`;
-      if(hacRegData.m2) postUrl += `&member1EvgId=${hacRegData.m2}`;
-      if(hacRegData.m3) postUrl += `&member1EvgId=${hacRegData.m3}`;
+      if(hacRegData.m2) postUrl += `&member2EvgId=${hacRegData.m2}`;
+      if(hacRegData.m3) postUrl += `&member3EvgId=${hacRegData.m3}`;
       await fetch(postUrl,{
       method: 'POST'
     });
