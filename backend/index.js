@@ -11,8 +11,8 @@ const Razorpay = require('razorpay')
 //Initialize razorpay credentials
 
 const razorpay  =new Razorpay({
-    key_id: "rzp_test_8kbWdeJfhioDsg",
-    key_secret: "4AYtdYVilRK99w2pM7SF39ru",
+    key_id: "rzp_live_u6DNFurSsXh9o3",
+    key_secret: "TL6rdyXdDyCMP6RmfB67xeUX",
 });
 
 app.use(cors())
