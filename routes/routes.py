@@ -263,11 +263,11 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
         except:
             raise exception
     
-    try:
-        name, mail = await getUserNameAndMail(leadEvgId)
-        await sendMail(subject, await getBody(name, teamEvgId), mail)
-    except:
-        raise exception
+    # try:
+    #     name, mail = await getUserNameAndMail(leadEvgId)
+    #     await sendMail(subject, await getBody(name, teamEvgId), mail)
+    # except:
+    #     raise exception
     
 
     
