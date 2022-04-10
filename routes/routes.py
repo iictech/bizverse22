@@ -243,9 +243,12 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
 
     try:
         leadName, leadMail = await getUserNameAndMail(leadEvgId)
+        print("lead fetch done")
         await sendMail(subject, getBody(leadName, leadEvgId), leadMail)
     except:
         raise exception
+    
+    print("lead done")
     
     if member1EvgId:
             try:
