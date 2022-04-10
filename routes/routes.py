@@ -195,6 +195,9 @@ BizVerse Team
     except:
         raise exception
 
+
+
+
 async def getBody(name, id):
     body = f"""
 Dear {name}
@@ -214,7 +217,7 @@ We hope you enjoy the event!
 Regards,
 BizVerse Team
     """
-    return body
+    return str(body)
 
 # def mails(name: str, evgId: str, teamEvgId: str,update: bool ):
 
@@ -230,30 +233,31 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
     if not isValidId(teamEvgId) and isValidId(leadEvgId):
         raise exception
     
-    # if member1EvgId:
-    #     if not isValidId(member1EvgId):
-    #         raise exception
-    #     updateUserHackathon(member1EvgId,teamEvgId)
+    if member1EvgId:
+        if not isValidId(member1EvgId):
+            raise exception
+        print(member1EvgId)
+        updateUserHackathon(member1EvgId,teamEvgId)
+
+    if member2EvgId:
+        if not isValidId(member2EvgId):
+            raise exception
+        updateUserHackathon(member1EvgId,teamEvgId)
     
-    # if member2EvgId:
-    #     if not isValidId(member2EvgId):
-    #         raise exception
-    #     updateUserHackathon(member1EvgId,teamEvgId)
-    
-    # if member3EvgId:
-    #     if not isValidId(member3EvgId):
-    #         raise exception
-    #     updateUserHackathon(member1EvgId,teamEvgId)
+    if member3EvgId:
+        if not isValidId(member3EvgId):
+            raise exception
+        updateUserHackathon(member1EvgId,teamEvgId)
     print("done checks")
 
 
-    try:
-        leadName, leadMail = await getUserNameAndMail(leadEvgId)
-        print("lead fetch done")
-        print(getBody(leadName, teamEvgId))
-        await sendMail(subject, getBody(leadName, teamEvgId), leadMail)
-    except:
-        raise exception
+    # try:
+    #     leadName, leadMail = await getUserNameAndMail(leadEvgId)
+    #     print("lead fetch done")
+    #     print(getBody(leadName, teamEvgId))
+    #     await sendMail(subject, await getBody(leadName, teamEvgId), leadMail)
+    # except:
+    #     raise exception
     
     print("lead done")
 
