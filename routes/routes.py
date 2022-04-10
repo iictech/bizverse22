@@ -238,32 +238,36 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
     if member3EvgId:
         if not isValidId(member3EvgId):
             raise exception
-    
+    print("done checks")
+
+
     try:
         leadName, leadMail = await getUserNameAndMail(leadEvgId)
-        if member1EvgId:
-            member1Name, member1Mail = await getUserNameAndMail(member1EvgId)
-            updateUserHackathon(member1EvgId,teamEvgId)
-        if member2EvgId:
-            member2Name, member2Mail = await getUserNameAndMail(member2EvgId)
-            updateUserHackathon(member2EvgId,teamEvgId)
-        if member3EvgId:
-            member3Name, member3Mail = await getUserNameAndMail(member3EvgId)
-            updateUserHackathon(member3EvgId,teamEvgId)
-
-    
-    except:
-        raise exception
-    
-    try:
-
         await sendMail(subject, getBody(leadName, leadEvgId), leadMail)
-        if member1EvgId:
-            await sendMail(subject, getBody(member1Name, member1EvgId), member1Mail)
-        if member2EvgId:
-            await sendMail(subject, getBody(member2Name, member2EvgId), member2Mail)
-        if member3EvgId:
-            await sendMail(subject, getBody(member3Name, member3EvgId), member3Mail)
-
     except:
         raise exception
+    
+    if member1EvgId:
+            try:
+                member1Name, member1Mail = await getUserNameAndMail(member1EvgId)
+                updateUserHackathon(member1EvgId,teamEvgId)
+                await sendMail(subject, getBody(member1Name, member1EvgId), member1Mail)
+            except:
+                raise exception
+    if member2EvgId:
+            try:
+                member2Name, member2Mail = await getUserNameAndMail(member2EvgId)
+                updateUserHackathon(member2EvgId,teamEvgId)
+                await sendMail(subject, getBody(member2Name, member2EvgId), member2Mail)
+            except:
+                raise exception
+    
+    if member3EvgId:
+            try:
+                member3Name, member3Mail = await getUserNameAndMail(member3EvgId)
+                updateUserHackathon(member3EvgId,teamEvgId)
+                await sendMail(subject, getBody(member3Name, member3EvgId), member3Mail)
+            except:
+                raise exception
+
+    print("done updates")
