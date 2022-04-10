@@ -8,7 +8,7 @@ import { BellIcon, MenuIcon, XIcon,
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-import {db,auth, onAuthStateChanged, doc, getDoc, updateDoc, arrayUnion, collection, setDoc} from "./firebase";
+import {db,auth, onAuthStateChanged, doc, getDoc, updateDoc, arrayUnion, collection, setDoc, query, where} from "./firebase";
 import { nanoid } from 'nanoid';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
@@ -139,7 +139,7 @@ export default function RegisteredEvents() {
   },[]);
   async function displayRazorpay(key){
     //POST request to Nodejs
-    const data = await fetch("https://stormy-journey-29948.herokuapp.com/razorpay",{
+    const data = await fetch("http://localhost:5000/razorpay",{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -197,6 +197,9 @@ export default function RegisteredEvents() {
       await fetch(postUrl,{
       method: 'POST'
     });
+    await fetch(`https://mail-micros.herokuapp.com/hackathon?evgId=${userData.evg_id}&teamEvgId=${teamEvgId}`,{
+      method: 'POST'
+    })
     } else {
       await updateDoc(doc(db, "users", userId), {
         reg_events: {
