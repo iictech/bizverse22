@@ -2,6 +2,7 @@
 from fastapi import APIRouter, HTTPException, exceptions, status
 from fastapi.responses import RedirectResponse
 from mail import sendMail
+from typing import Optional
 from models.models import *
 from database.database import *
 
@@ -174,6 +175,8 @@ Greetings from BizVerse,
 
 We have successfully received your registration for the event “HackUrWay”. 
 
+Your team evg-Id : {teamEvgId}
+
 HackUrWay is an exciting hackathon where teams will compete against each other to solve some of the relevant problems we face in our daily lives by inculcating their problem-solving skills. 
 
 For rules and further details, please keep checking your email.
@@ -189,5 +192,74 @@ BizVerse Team
     
     try:
         await sendMail(subject, body, mail)
+    except:
+        raise exception
+
+async def getBody(name, id):
+    body = f"""
+Dear {name}
+
+Greetings from BizVerse,
+
+We have successfully received your registration for the event “HackUrWay”. 
+
+Your team evg-Id : {id}
+
+HackUrWay is an exciting hackathon where teams will compete against each other to solve some of the relevant problems we face in our daily lives by inculcating their problem-solving skills. 
+
+For rules and further details, please keep checking your email.
+
+We hope you enjoy the event!
+
+Regards,
+BizVerse Team
+    """
+    return body
+
+
+@apiRouter.post("/mailteam")
+async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] = None, member2EvgId: Optional[str] = None, member3EvgId: Optional[str] = None):
+    exception = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND)
+    
+    subject = "Successfully Registered for HackUrWay, BizVerse 2022"
+    
+    if not isValidId(teamEvgId) and isValidId(leadEvgId):
+        raise exception
+    
+    if member1EvgId:
+        if not isValidId(member1EvgId):
+            raise exception
+    
+    if member2EvgId:
+        if not isValidId(member2EvgId):
+            raise exception
+    
+    if member3EvgId:
+        if not isValidId(member3EvgId):
+            raise exception
+    
+    try:
+        leadName, leadMail = await getUserNameAndMail(leadEvgId)
+        if member1EvgId:
+            member1Name, member1Mail = await getUserNameAndMail(member1EvgId)
+        if member2EvgId:
+            member2Name, member2Mail = await getUserNameAndMail(member2EvgId)
+        if member3EvgId:
+            member3Name, member3Mail = await getUserNameAndMail(member3EvgId)
+    
+    except:
+        raise exception
+    
+    try:
+
+        await sendMail(subject, getBody(leadName, leadEvgId), leadMail)
+        if member1EvgId:
+            await sendMail(subject, getBody(member1Name, member1EvgId), member1Mail)
+        if member2EvgId:
+            await sendMail(subject, getBody(member2Name, member2EvgId), member2Mail)
+        if member3EvgId:
+            await sendMail(subject, getBody(member3Name, member3EvgId), member3Mail)
+
     except:
         raise exception
