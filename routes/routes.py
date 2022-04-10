@@ -237,25 +237,38 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
         if not isValidId(member1EvgId):
             raise exception
         await updateUserHackathon(member1EvgId,teamEvgId)
+        try:
+            member1Name, member1Mail = await getUserNameAndMail(member1EvgId)
+            await sendMail(subject, await getBody(member1Name, teamEvgId), member1Mail)
+        except:
+            raise exception
 
     if member2EvgId:
         if not isValidId(member2EvgId):
             raise exception
         await updateUserHackathon(member2EvgId,teamEvgId)
+        try:
+            member2Name, member2Mail = await getUserNameAndMail(member2EvgId)
+            await sendMail(subject, await getBody(member2Name, teamEvgId), member2Mail)
+        except:
+            raise exception
     
     if member3EvgId:
         if not isValidId(member3EvgId):
             raise exception
         await updateUserHackathon(member3EvgId,teamEvgId)
-    print("done checks")
+        try:
+            member3Name, member3Mail = await getUserNameAndMail(member3EvgId)
+            await sendMail(subject, await getBody(member3Name, teamEvgId), member3Mail)
+        except:
+            raise exception
 
 
     try:
         leadName, leadMail = await getUserNameAndMail(leadEvgId)
-        print("lead fetch done")
         await sendMail(subject, await getBody(leadName, teamEvgId), leadMail)
     except:
         raise exception
     
 
-    print("done updates")
+    
