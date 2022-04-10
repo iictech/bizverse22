@@ -243,10 +243,14 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
         leadName, leadMail = await getUserNameAndMail(leadEvgId)
         if member1EvgId:
             member1Name, member1Mail = await getUserNameAndMail(member1EvgId)
+            updateUserHackathon(member1EvgId,teamEvgId)
         if member2EvgId:
             member2Name, member2Mail = await getUserNameAndMail(member2EvgId)
+            updateUserHackathon(member2EvgId,teamEvgId)
         if member3EvgId:
             member3Name, member3Mail = await getUserNameAndMail(member3EvgId)
+            updateUserHackathon(member3EvgId,teamEvgId)
+
     
     except:
         raise exception

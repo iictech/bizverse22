@@ -29,3 +29,21 @@ async def getUserMail(evgId: str):
         data = idx.to_dict()
         mail = data["email"]
         return mail
+
+async def updateUserHackathon(evgId: str, teamId: str):
+    user = db.collection("users").where("evg_id", "==", evgId).stream()
+    # user.update({"is_registered": True, "team_id": teamId})
+    
+    for idx in user:
+        doc = idx.to_dict()
+        idx = idx.id
+    print(idx)
+    print(doc)
+
+    doc["reg_events"]["hackathon"]["is_registered"] = True
+    doc["reg_events"]["hackathon"]["team_id"] = teamId
+
+
+    doc_ref = db.collection("users").document(idx)
+    doc_ref.update(doc)
+    
