@@ -157,6 +157,7 @@ BizVerse Team
     except:
         raise exception
 
+
 @apiRouter.post("/hackathon")
 async def hackathon(teamEvgId: str, evgId: str):
     exception = HTTPException(
@@ -166,6 +167,8 @@ async def hackathon(teamEvgId: str, evgId: str):
         name, mail = await getUserNameAndMail(evgId)
     except:
         raise exception
+    
+    print("done")
 
     subject = "Successfully Registered for HackUrWay, BizVerse 2022"
     body = f"""

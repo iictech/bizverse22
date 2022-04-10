@@ -18,6 +18,7 @@ async def getUserNameAndMail(evgId: str):
         name = data["name"]
         mail = data["email"]
         name = name["first"] + " " + name["last"]
+        print(name, mail)
         return name, mail
 
 async def getUserMail(evgId: str):
