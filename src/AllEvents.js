@@ -89,9 +89,9 @@ export default function RegisteredEvents() {
   const [hacRegData, setHacRegData] = useState({
     team_name: '',
     team_lead: '',
-    m1: '',
-    m2: '',
-    m3: '',
+    m1: false,
+    m2: false,
+    m3: false,
   });
   const [userId, setUserId] = useState('');
   const [userData, setUserData]= useState({
@@ -143,7 +143,7 @@ export default function RegisteredEvents() {
         }),
     }).then((t)=> t.json())
     const options = {
-        key: "rzp_test_8kbWdeJfhioDsg",
+        key: "rzp_live_u6DNFurSsXh9o3",
         currency: data.currency,
         amount: data.amount,
         description: eventNameKeyMap[key],
@@ -181,7 +181,14 @@ export default function RegisteredEvents() {
           }
         }
       });
-      await fetch(`https://mail-micros.herokuapp.com/hackathon?evgId=${userData.evg_id}&teamEvgId=${teamEvgId}`,{
+      await setDoc(doc(db, `events/hackathon/${teamEvgId}/${teamEvgId}`), {
+        ...hacRegData
+      });
+      let postUrl = `https://mail-micros.herokuapp.com/hackathon?leadEvgId=${userData.evg_id}&teamEvgId=${teamEvgId}`
+      if(hacRegData.m1) postUrl += `&member1EvgId=${hacRegData.m1}`;
+      if(hacRegData.m2) postUrl += `&member1EvgId=${hacRegData.m2}`;
+      if(hacRegData.m3) postUrl += `&member1EvgId=${hacRegData.m3}`;
+      await fetch(postUrl,{
       method: 'POST'
     });
     } else {
@@ -503,9 +510,6 @@ export default function RegisteredEvents() {
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={async (e)=>{
                     e.target.innerText = 'Loading ...';
-                    await setDoc(doc(db, `events/hackathon/${teamEvgId}/${teamEvgId}`), {
-                      ...hacRegData
-                    });
                     displayRazorpay('hackathon');
                   }}
                 >
