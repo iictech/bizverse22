@@ -236,18 +236,17 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
     if member1EvgId:
         if not isValidId(member1EvgId):
             raise exception
-        print(member1EvgId)
         await updateUserHackathon(member1EvgId,teamEvgId)
 
     if member2EvgId:
         if not isValidId(member2EvgId):
             raise exception
-        await updateUserHackathon(member1EvgId,teamEvgId)
+        await updateUserHackathon(member2EvgId,teamEvgId)
     
     if member3EvgId:
         if not isValidId(member3EvgId):
             raise exception
-        await updateUserHackathon(member1EvgId,teamEvgId)
+        await updateUserHackathon(member3EvgId,teamEvgId)
     print("done checks")
 
 
@@ -259,6 +258,5 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
     # except:
     #     raise exception
     
-    print("lead done")
 
     print("done updates")
