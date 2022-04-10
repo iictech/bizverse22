@@ -7,6 +7,7 @@ import { BellIcon, MenuIcon, XIcon,ChartBarIcon,
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
+import { useNavigate } from 'react-router-dom';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
@@ -24,6 +25,14 @@ function classNames(...classes) {
 }
 
 function RegisteredEventsList({registeredEvents}){
+  const navigate = useNavigate()
+  useEffect(() => {
+    setTimeout(()=>{
+      if(!auth.currentUser){
+        navigate('/');
+      }
+    },2000)
+  },[])
   if(registeredEvents.length !== 0){
     return (<>
         <div className="sm:grid grid-cols-2">

@@ -10,6 +10,7 @@ import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
 import CalenderComp from "./CalenderComp";
+import { useNavigate } from 'react-router-dom';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Registered Events', href: '/registered-events', current: false },
@@ -52,12 +53,18 @@ function classNames(...classes) {
 
 export default function RegisteredEvents() {
   const [userId, setUserId] = useState('');
+  const navigate = useNavigate();
   const [userData, setUserData]= useState({
     name: '',
     email: '',
     imageUrl: false,
   });
   useEffect(()=>{
+    setTimeout(()=>{
+      if(!auth.currentUser){
+        navigate('/');
+      }
+    },2000)
     onAuthStateChanged(auth, (user)=>{
       if(user){
         setUserId(user.uid)
