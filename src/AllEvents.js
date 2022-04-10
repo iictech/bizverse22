@@ -101,6 +101,11 @@ export default function RegisteredEvents() {
   });
   useEffect(()=>{
     setTeamEvgId('22EVG'+nanoid(3).replace('-','Z').replace('_','X').toUpperCase()+Date.now().toString().substr(7));
+    setTimeout(()=>{
+      if(!auth.currentUser){
+        navigate('/');
+      }
+    },2000)
     onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)

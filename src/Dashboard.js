@@ -11,6 +11,7 @@ PhoneIcon} from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
+import {useNavigate} from 'react-router-dom';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
   { name: 'Registered Events', href: '/registered-events', current: false },
@@ -27,6 +28,7 @@ function classNames(...classes) {
 
 export default function Dashboard() {
   const [userId, setUserId] = useState('');
+  const navigate = useNavigate();
   const [userData, setUserData]= useState({
     name: {
       first: '',
@@ -39,7 +41,13 @@ export default function Dashboard() {
   useEffect(()=>{
     fetch('https://stormy-journey-29948.herokuapp.com/').then(()=>{
       console.log('Welcome to the dashboard');
+      setTimeout(()=>{
+        if(!auth.currentUser){
+          navigate('/');
+        }
+      },2000)
     })
+    
     onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
@@ -57,6 +65,7 @@ export default function Dashboard() {
           })
         } else {
           console.log("User Not Found");
+          navigate('/');
         }
       }
     });
