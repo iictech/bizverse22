@@ -13,6 +13,7 @@ const navigation = [
   { name: 'Registered Events', href: '/registered-events', current: true },
   { name: 'All Events', href: '/all-events', current: false },
   { name: 'Calendar', href: '/calender', current: false },
+  { name: 'Rules', href: '/rules', current: false },
 ]
 const userNavigation = [
   { name: 'Sign out', href: '/sign-out' },

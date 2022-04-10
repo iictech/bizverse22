@@ -1,73 +1,46 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon, 
+import { BellIcon, MenuIcon, XIcon,
+  ChartBarIcon,
   AcademicCapIcon,
-IdentificationIcon,
-ChipIcon,
-LocationMarkerIcon,
-MailIcon,
-UsersIcon,
-PhoneIcon} from '@heroicons/react/outline'
+  CheckCircleIcon,
+  CursorClickIcon,
+  TrendingUpIcon, } from '@heroicons/react/outline'
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
-import {db,auth, onAuthStateChanged, doc, getDoc} from "./firebase";
-import {useNavigate} from 'react-router-dom';
+import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
+import CalenderComp from "./CalenderComp";
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
+  { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Registered Events', href: '/registered-events', current: false },
   { name: 'All Events', href: '/all-events', current: false },
   { name: 'Calendar', href: '/calender', current: false },
-  { name: 'Rules', href: '/rules', current: false },
+  { name: 'Rules', href: '/rules', current: true },
 ]
 const userNavigation = [
-  { name: 'Sign out', href: '/sign-out' },
-]
+    { name: 'Sign out', href: '/sign-out' },
+  ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Dashboard() {
+export default function RegisteredEvents() {
   const [userId, setUserId] = useState('');
-  const navigate = useNavigate();
   const [userData, setUserData]= useState({
-    name: {
-      first: '',
-      last: ''
-    },
+    name: '',
     email: '',
     imageUrl: false,
-    evg_id: 'Loading...',
   });
   useEffect(()=>{
-    fetch('https://stormy-journey-29948.herokuapp.com/').then(()=>{
-      console.log('Welcome to the dashboard');
-      setTimeout(()=>{
-        if(!auth.currentUser){
-          navigate('/');
-        }
-      },2000)
-    })
-    
-    onAuthStateChanged(auth, async (user)=>{
+    onAuthStateChanged(auth, (user)=>{
       if(user){
         setUserId(user.uid)
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUserData({
-            name: {
-              first: user.displayName.split(' ')[0],
-              last: user.displayName.split(' ')[1]
-            },
-            email: user.email,
-            imageUrl: user.photoURL,
-            ...docSnap.data(),
-          })
-        } else {
-          console.log("User Not Found");
-          navigate('/');
-        }
+        setUserData({
+          name: user.displayName,
+          email: user.email,
+          imageUrl: user.photoURL,
+        })
       }
     });
   },[])
@@ -83,7 +56,7 @@ export default function Dashboard() {
                     <div className="flex items-center justify-between h-16 px-4 sm:px-0">
                       <div className="flex items-center">
                         <div className="flex-shrink-0">
-                          <a href='/'>
+                        <a href='/'>
                           <img
                             className="h-8 w-8"
                             src={logo}
@@ -126,7 +99,7 @@ export default function Dashboard() {
                             <div>
                               <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                 <span className="sr-only">Open user menu</span>
-                                <img className="h-8 w-8 rounded-full" src={userData.imageUrl} alt="" />
+                                <img className="h-8 w-8 rounded-full" src={userData.imageUrl || logo} alt="" />
                               </Menu.Button>
                             </div>
                             <Transition
@@ -194,10 +167,10 @@ export default function Dashboard() {
                   <div className="pt-4 pb-3 border-t border-gray-700">
                     <div className="flex items-center px-5">
                       <div className="flex-shrink-0">
-                        <img className="h-10 w-10 rounded-full" src={userData.imageUrl || logo} alt="" />
+                        <img className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
                       </div>
                       <div className="ml-3">
-                        <div className="text-base font-medium leading-none text-white">{userData.name.first + ' ' + userData.name.last}</div>
+                        <div className="text-base font-medium leading-none text-white">{userData.displayName}</div>
                         <div className="text-sm font-medium leading-none text-gray-400">{userData.email}</div>
                       </div>
                       <button
@@ -227,67 +200,63 @@ export default function Dashboard() {
           </Disclosure>
           <header className="py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold text-white">Welcome {userData.name.first + ' ' + userData.name.last}</h1>
+              <h1 className="text-3xl font-bold text-white">Rules</h1>
             </div>
           </header>
         </div>
 
         <main className="-mt-32">
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-            {/* Replace with your content */}
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-              <div className="text-center p-4 border-4 border-dashed border-gray-200 rounded-lg text-xl font-semibold ">
-                <div className="mt-5 font-bold">
-                EVG ID : {userData.evg_id}
-                </div>
-                <div className="mt-2 text-lg">
-                Your Details
-                <div className="flex flex-wrap p-4 justify-evenly text-xl">
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <AcademicCapIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>College : {userData.college}</p>
-                  </div>
+            <h1 className="text-xl font-bold text-center p-2">Rule Book for Brain-It-Out</h1>
+              <p className="p-3 text-center">
+              Brain-It-Out is a fun event where participants will be quizzed on topics such as business, technology, innovation and the market scenario of today’s world. 
+              </p>
+    <p className="p-3">Rules:
+    <ul>
+        <li>1. It is a solo event.</li>
+      <li>2. There will be 2 rounds in the quiz. The 1st round will be an elimination round, where participants with the most correct answers will be qualified for the final round. </li>
+    <li>3. Further details of the quiz will be announced on the spot.</li>
+    <li>4. Using any kind of electronic device is prohibited during the quiz. If found, it can lead to disqualification.</li>
+    <li>5. The results announced by the panel will be final. No further changes will be made.</li>
+    </ul>
+    </p>
 
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <IdentificationIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>College ID : {userData.college_id}</p>
-                  </div>
+    <h1 className="text-xl font-bold text-center mt-3">Rule Book for Poster & Logo Designing</h1>
+    <p className="p-3 text-center">Poster and Logo designing competition is an event where participants can showcase their creative and marketing side by designing some of the most intriguing and expressive logos and posters on the given topics.</p>
+    <p className="p-3">
+    Rules:
+    <ul>
+    <li>1. It is a solo event.</li>
+    <li>2. There will be two categories in this event – Logo designing and Poster designing. You can choose any one of them.</li>
+    <li>3. For Poster Designing – A topic will be given based on which you will have to design the poster.</li> 
+    <li>4. The poster must be professional and should have a resolution of at least 300dpi. The aspect ratio must be 1:1, 4:3 or 16:9</li>
+    <li>5. For Logo Designing -  A dummy company will be created. The history and other details about the company will be provided by us. You will have to design a logo for that particular company.</li>
+    <li>6. The Problem statement will be out on 17th April’22. </li>
+    <li>7. Submissions will start on 19th April’22 in offline mode. </li>
+   <li>8. You can use any software for designing.</li>
+    <li>9. Your work should be plagiarism free. If found, your submission can be cancelled.</li>
+    <li>10. The results announced by the panel will be final. No further changes will be made.</li>
+    </ul>
+    </p>
 
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <ChipIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>Department : {userData.department}</p>
-                  </div>
 
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <LocationMarkerIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>State : {userData.state}</p>
-                  </div>
-
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <LocationMarkerIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>City : {userData.city}</p>
-                  </div>
-
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <MailIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>Email : {userData.email}</p>
-                  </div>
-
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <UsersIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>Gender : {userData.gender}</p>
-                  </div>
-
-                  <div className='flex p-4 items-center justify-center flex-col'>
-                  <PhoneIcon className="h-6 w-6" aria-hidden="true"/>
-                  <p>Phone Number : {userData.number}</p>
-                  </div>
-
-                </div>
-              </div>
+<h1 className="text-xl font-bold text-center p-2 mt-3">Rule Book for HackUrWay</h1>
+<p className="p-3 text-center">HackUrWay is an exciting hackathon where participants will compete against each other to solve some of the relevant problems we face in our daily lives by inculcating their problem-solving skills.
+</p>
+<p className="p-3">Rules:
+    <ul>
+   <li> 1. It is a team event. Each team can have maximum 4 members, including the team leader.</li>
+    <li>2.  There will be two problem statements. You can choose any one of them.</li>
+    <li>3. The hackathon will have two categories – Ideation and MVP. You can choose any one of them to submit your solution.</li>
+    <li>    4. Category 1 (IDEATION) -  For this category, your team will have to prepare a presentation video explaining the solution of the problem and share on YouTube with the tags of IIC [#iictmsl and #iicbizverse] and submit the link in the provided google form.
+</li>
+   <li> 5. Category 2 (MVP) -  For this category, your team will have to build a prototype of the solution and then record a video explaining it. Then, that video must be uploaded on YouTube and later in the provided google form.</li>
+   <li> 6. The video title must contain your team’s name. Tagging IIC TMSL in your video is mandatory.</li>
+   <li>7. The results announced by the panel will be final. No further changes will be made.</li>
+    </ul>
+    </p>
             </div>
-            </div>
-            {/* /End replace */}
           </div>
         </main>
       </div>
