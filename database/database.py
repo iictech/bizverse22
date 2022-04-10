@@ -36,12 +36,9 @@ async def updateUserHackathon(evgId: str, teamId: str):
     for idx in user:
         doc = idx.to_dict()
         idx = idx.id
-    print(idx)
-    print(doc)
 
     doc["reg_events"]["hackathon"]["is_registered"] = True
     doc["reg_events"]["hackathon"]["team_id"] = teamId
-
 
     doc_ref = db.collection("users").document(idx)
     doc_ref.update(doc)

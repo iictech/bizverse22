@@ -250,13 +250,12 @@ async def hackathon(teamEvgId: str, leadEvgId: str, member1EvgId: Optional[str] 
     print("done checks")
 
 
-    # try:
-    #     leadName, leadMail = await getUserNameAndMail(leadEvgId)
-    #     print("lead fetch done")
-    #     print(getBody(leadName, teamEvgId))
-    #     await sendMail(subject, await getBody(leadName, teamEvgId), leadMail)
-    # except:
-    #     raise exception
+    try:
+        leadName, leadMail = await getUserNameAndMail(leadEvgId)
+        print("lead fetch done")
+        await sendMail(subject, await getBody(leadName, teamEvgId), leadMail)
+    except:
+        raise exception
     
 
     print("done updates")
