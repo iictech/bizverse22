@@ -216,7 +216,7 @@ BizVerse Team
     """
     return body
 
-def mails(name: str, evgId: str, teamEvgId: str,update: bool ):
+# def mails(name: str, evgId: str, teamEvgId: str,update: bool ):
 
 
 
