@@ -12,7 +12,7 @@ export default function SignUp() {
   const [userDetails, setUserDetails] = useState({
     name: {
       first: '',
-      last: ''
+      last: '',
     },
     email: '',
     number: false,
@@ -104,8 +104,7 @@ export default function SignUp() {
                   type="text"
                   className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   placeholder="Enter your full name"
-                  onChange={(e)=>{setUserDetails({...userDetails,name:{first:e.target.value}})}}
-                  value={userDetails.name.first}
+                  onChange={(e)=>{setUserDetails({...userDetails,name:{...userDetails.name,first:e.target.value}})}}
                 />
               </div>
             </div>
@@ -119,8 +118,7 @@ export default function SignUp() {
                   type="text"
                   className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   placeholder="Enter your full name"
-                  onChange={(e)=>{setUserDetails({...userDetails,name:{last:e.target.value}})}}
-                  value={userDetails.name.last}
+                  onChange={(e)=>{setUserDetails({...userDetails,name:{...userDetails.name,last:e.target.value}})}}
                 />
               </div>
             </div>
