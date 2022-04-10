@@ -139,7 +139,7 @@ export default function RegisteredEvents() {
   },[]);
   async function displayRazorpay(key){
     //POST request to Nodejs
-    const data = await fetch("http://localhost:5000/razorpay",{
+    const data = await fetch("https://stormy-journey-29948.herokuapp.com/razorpay",{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
