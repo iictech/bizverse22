@@ -11,9 +11,7 @@ apiDescription = """
 app = FastAPI(title="Bizverse Microservice", description=apiDescription, contact={
               "name": "Bizverse'22, IIC Techno Main Saltlake", "url": "https://iictmsl.in/"})
 
-origins = [
-    "http://localhost:3000", "https://iicblog.netlify.app", "https://iic-extn.herokuapp.com"
-]
+origins = ["https://bizverse-2k22.web.app/"]
 
 # what is a middleware?
 # software that acts as a bridge between an operating system or database and applications, especially on a network.
