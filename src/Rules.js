@@ -9,7 +9,6 @@ import { BellIcon, MenuIcon, XIcon,
 import logo from "./logo.png"
 import { useEffect, useState } from 'react';
 import {db,auth, onAuthStateChanged, doc, setDoc} from "./firebase";
-import CalenderComp from "./CalenderComp";
 import { useNavigate } from 'react-router-dom';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: false },

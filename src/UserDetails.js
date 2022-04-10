@@ -69,10 +69,7 @@ export default function SignUp() {
     onAuthStateChanged(auth, async (user)=>{
       if(user){
         setUserId(user.uid)
-        setUserDetails({...userDetails,email:user.email,name:{
-          first:user.displayName.split(' ')[0],
-          last:user.displayName.split(' ')[1]
-        }});
+        setUserDetails({...userDetails,email:user.email});
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {

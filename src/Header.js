@@ -121,7 +121,7 @@ export default function Example() {
                           {events.map((item) => (
                             <a
                               key={item.name}
-                              href={item.href}
+                              href="/rule-book"
                               className="-m-3 p-3 flex flex-col justify-between rounded-lg hover:bg-gray-800"
                             >
                               <div className="flex md:h-full lg:flex-col">
@@ -221,7 +221,7 @@ export default function Example() {
                     {events.map((item) => (
                       <a
                         key={item.name}
-                        href={item.href}
+                        href="/rule-book"
                         className="-m-3 flex items-center p-3 rounded-lg hover:bg-gray-800"
                       >
                         <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-12 sm:w-12">
