@@ -164,7 +164,7 @@ async def hackathon(teamEvgId: str, evgId: str):
         status_code=status.HTTP_404_NOT_FOUND)
     
     try:
-        name, mail = await getUserNameAndMail(evgId)
+        mail = await getUserMail(evgId)
     except:
         raise exception
     
@@ -172,7 +172,6 @@ async def hackathon(teamEvgId: str, evgId: str):
 
     subject = "Successfully Registered for HackUrWay, BizVerse 2022"
     body = f"""
-Dear {name}
 
 Greetings from BizVerse,
 
