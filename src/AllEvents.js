@@ -401,7 +401,7 @@ export default function RegisteredEvents() {
                                   <div>
                                     <p className="text-base font-medium text-gray-900">{item.name}</p>
                                     <p className="mt-1 text-sm text-gray-700">{item.description}</p>
-                                    <p className="mt-1 text-sm text-gray-700">Registration : ₹ {item.price}</p>
+                                    <p className="mt-1 text-sm text-green-700">Registration : {item.price === 'free' ? '' : '₹'} {item.price}</p>
                                   </div>
                                   <p className="mt-2 text-sm font-medium text-indigo-600 lg:mt-3">
                                   {!item.registered ? 
