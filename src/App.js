@@ -9,6 +9,9 @@ import AllEvents from "./AllEvents"
 import Calender from "./Calender"
 import Rules from "./Rules";
 import RuleBook from "./RuleBook";
+import Terms from "./Terms";
+import Refund from "./Refund";
+import Privacy from "./Privacy";
 import {auth, signOut} from "./firebase"
 import {useNavigate} from 'react-router-dom';
 
@@ -35,6 +38,9 @@ export default function App() {
         <Route path="/sign-out" exact element={<SignOut />}></Route>
         <Route path="/rules" exact element={<Rules />}></Route>
         <Route path="/rule-book" exact element={<RuleBook />}></Route>
+        <Route path="/terms" exact element={<Terms />}></Route>
+        <Route path="/refunds" exact element={<Refund />}></Route>
+        <Route path="/privacy" exact element={<Privacy />}></Route>
       </Routes>
     </Router>
   )

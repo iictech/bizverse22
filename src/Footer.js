@@ -47,16 +47,21 @@ const navigation = [
     return (
       <footer className="bg-gray-900">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
-          <div className="flex justify-center space-x-6 md:order-2">
+          <div className="flex justify-center space-x-6 md:order-3">
             {navigation.map((item) => (
               <a key={item.name} href={item.href} className="text-gray-400 hover:text-gray-500">
-                <span className="sr-only">{item.name}</span>
                 <item.icon className="h-6 w-6" aria-hidden="true" />
               </a>
             ))}
           </div>
+          <div className='mt-8 md:mt-0 md:order-2 text-center text-sm'>
+          <a href="/terms" className="pl-2 text-gray-400 hover:text-gray-500 underline underline-offset-2">Terms and Conditions</a>
+          <a href="/privacy" className="pl-2 text-gray-400 hover:text-gray-500 underline underline-offset-2">Privacy Policy</a>
+          <a href="/refunds" className="pl-2 text-gray-400 hover:text-gray-500 underline underline-offset-2">Refund Policy</a>
+          </div>
           <div className="mt-8 md:mt-0 md:order-1">
-            <p className="text-center text-base text-gray-400">&copy; 2022 IIC TMSL</p>
+            <p className="text-center text-base text-gray-400">&copy; 2022 IIC TMSL
+            </p>
           </div>
         </div>
       </footer>
