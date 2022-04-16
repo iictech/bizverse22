@@ -404,7 +404,7 @@ export default function RegisteredEvents() {
                                     <p className="mt-1 text-sm text-green-700">Registration : {item.price === 'free' ? '' : '₹'} {item.price}</p>
                                   </div>
                                   <p className="mt-2 text-sm font-medium text-indigo-600 lg:mt-3">
-                                  {!item.registered ? 
+                                  {item.key === 'hackathon' ? 'Registration Closed' : !item.registered ? 
                                     <button
                                       type="button"
                                       className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -423,7 +423,8 @@ export default function RegisteredEvents() {
                                     >
                                       Register Now &nbsp;<span aria-hidden="true">&rarr;</span>
                                     </button>
-                                  : 'Registered'}
+                                  : 'Registered'
+                                  }
                                   </p>
                                 </div>
                               </div>

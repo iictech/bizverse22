@@ -1,7 +1,7 @@
 export default function Terms(){
     return (
         <div className="text-center flex justify-center items-center h-screen">
-            <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6 w-1/2">
+            <div className="bg-white rounded-lg shadow px-5 py-6 md:w-2/3">
               <p className="text-lg font-bold text-center p-2">
               Cancellation</p>
 <p>IIC TMSL Biz Verse prohibits the cancellation of registration for any event after a payment has already been made successfully, hence we advice you to carefully review your selection of events, before confirming the payment.</p>
